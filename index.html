@@ -19,11 +19,7 @@
     --radius:8px;--radius-lg:12px;
   }
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--gray-50);color:var(--gray-900);min-height:100vh}
-  
-  /* LAYOUT */
   .app{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
-  
-  /* HEADER */
   .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem}
   .header-brand{display:flex;align-items:center;gap:12px}
   .brand-dot{width:10px;height:10px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0}
@@ -37,27 +33,19 @@
   .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:0}
   .sync-dot.active{opacity:1;animation:pulse 1s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-
-  /* TABS */
   .tabs{display:flex;gap:2px;margin-bottom:1.5rem;background:var(--gray-100);padding:3px;border-radius:var(--radius);width:fit-content}
   .tab{font-size:13px;padding:6px 16px;border-radius:6px;border:none;cursor:pointer;background:transparent;color:var(--gray-600);font-weight:400;transition:all 0.15s}
   .tab.active{background:white;color:var(--gray-900);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
-
-  /* ADD BAR */
   .add-bar{display:flex;gap:8px;margin-bottom:1.25rem}
   .add-bar input{flex:1;font-size:14px;padding:9px 13px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);outline:none;transition:border-color 0.15s}
   .add-bar input:focus{border-color:var(--teal)}
   .add-bar select{font-size:13px;padding:9px 10px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);outline:none;cursor:pointer}
   .add-bar button{font-size:13px;padding:9px 18px;border-radius:var(--radius);border:1px solid var(--teal);background:var(--teal);color:white;cursor:pointer;font-weight:500;transition:all 0.15s;white-space:nowrap}
   .add-bar button:hover{background:var(--teal-dark)}
-
-  /* PROGRESS */
   .progress-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
   .progress-bar{flex:1;height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden}
   .progress-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.4s ease}
   .progress-label{font-size:12px;color:var(--gray-400);white-space:nowrap}
-
-  /* ITEM CARDS */
   .item-card{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);margin-bottom:6px;overflow:hidden;transition:box-shadow 0.15s,border-color 0.15s}
   .item-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.06)}
   .item-card.is-open{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
@@ -68,8 +56,6 @@
   .avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;border:2px solid white}
   .chevron{font-size:10px;color:var(--gray-400);transition:transform 0.2s;flex-shrink:0}
   .item-card.is-open .chevron{transform:rotate(180deg)}
-
-  /* STATUS BADGE */
   .status-badge{font-size:11px;padding:3px 9px;border-radius:100px;font-weight:500;cursor:pointer;border:none;flex-shrink:0;white-space:nowrap;transition:opacity 0.15s}
   .status-badge:hover{opacity:0.8}
   .s-working{background:var(--teal-light);color:var(--teal-dark)}
@@ -77,28 +63,20 @@
   .s-reference{background:var(--blue-light);color:var(--blue)}
   .s-done{background:var(--green-light);color:var(--green)}
   .s-hold{background:var(--amber-light);color:var(--amber)}
-
-  /* ITEM BODY */
   .item-body{display:none;border-top:1px solid var(--gray-100);padding:14px 14px 14px 44px}
   .item-card.is-open .item-body{display:block}
-
-  /* NOTES */
   .notes-label{font-size:11px;font-weight:500;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
   .note-entry{padding:9px 11px;border-left:2px solid var(--gray-200);margin-bottom:7px;background:var(--gray-50);border-radius:0 var(--radius) var(--radius) 0}
   .note-meta{font-size:11px;color:var(--gray-400);margin-bottom:3px}
   .note-meta strong{color:var(--gray-600)}
   .note-text{font-size:13px;color:var(--gray-900);line-height:1.5;white-space:pre-wrap}
   .no-notes{font-size:13px;color:var(--gray-400);margin-bottom:10px;font-style:italic}
-
-  /* NOTE INPUT */
   .note-input-area{display:flex;gap:7px;margin-top:10px}
   .note-input-area select{font-size:12px;padding:7px 8px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);outline:none;width:90px;flex-shrink:0}
   .note-input-area textarea{flex:1;font-size:13px;padding:7px 10px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);resize:none;height:58px;font-family:inherit;outline:none;transition:border-color 0.15s;line-height:1.4}
   .note-input-area textarea:focus{border-color:var(--teal)}
   .note-input-area button{font-size:12px;padding:0 13px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-600);cursor:pointer;align-self:flex-end;height:34px;transition:all 0.15s;white-space:nowrap}
   .note-input-area button:hover{border-color:var(--teal);color:var(--teal)}
-
-  /* ITEM FOOTER */
   .item-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--gray-100)}
   .owner-chips{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
   .owner-chip{display:flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;background:var(--gray-100);border-radius:100px;color:var(--gray-600)}
@@ -107,8 +85,6 @@
   .item-btn:hover{background:var(--gray-100)}
   .item-btn.done-btn:hover{background:var(--green-light);color:var(--green);border-color:var(--green-light)}
   .item-btn.remove-btn:hover{background:var(--red-light);color:var(--red);border-color:var(--red-light)}
-
-  /* LEXACOM */
   .lexacom-section{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem}
   .lexacom-section h3{font-size:14px;font-weight:500;color:var(--gray-900);margin-bottom:4px}
   .lexacom-section p{font-size:13px;color:var(--gray-400);margin-bottom:12px}
@@ -118,23 +94,14 @@
   .lexacom-entry{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-top:12px}
   .lexacom-entry-meta{font-size:11px;color:var(--gray-400);margin-bottom:6px;font-weight:500}
   .lexacom-entry-text{font-size:13px;color:var(--gray-900);line-height:1.6;white-space:pre-wrap}
-
-  /* LOADING / STATUS */
-  .status-bar{font-size:12px;color:var(--gray-400);text-align:center;padding:2rem;display:none}
+  .status-bar{font-size:13px;color:var(--gray-400);text-align:center;padding:3rem;display:none}
   .status-bar.visible{display:block}
   .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gray-900);color:white;font-size:13px;padding:10px 16px;border-radius:var(--radius);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:100}
   .toast.show{opacity:1}
-
-  /* EMPTY */
   .empty{text-align:center;padding:3rem 1rem;color:var(--gray-400);font-size:14px}
-
-  /* ONGOING GROUP */
-  .section-label{font-size:11px;font-weight:500;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;margin-top:1rem}
-  .section-label:first-child{margin-top:0}
 </style>
 </head>
 <body>
-
 <div class="app">
   <div class="header">
     <div class="header-brand">
@@ -159,7 +126,6 @@
     <button class="tab" onclick="switchTab('lexacom',this)">Lexacom</button>
   </div>
 
-  <!-- AGENDA TAB -->
   <div id="tab-agenda">
     <div class="add-bar">
       <input type="text" id="new-title" placeholder="Add agenda item..." onkeydown="if(event.key==='Enter')addItem()"/>
@@ -177,12 +143,10 @@
     <div id="agenda-list"></div>
   </div>
 
-  <!-- ONGOING TAB -->
   <div id="tab-ongoing" style="display:none">
     <div id="ongoing-list"></div>
   </div>
 
-  <!-- LEXACOM TAB -->
   <div id="tab-lexacom" style="display:none">
     <div class="lexacom-section">
       <h3>Paste Lexacom summary</h3>
@@ -199,10 +163,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const GITHUB_TOKEN = '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';
-const GITHUB_REPO = 'Marcovanbd1/leadership-data';
-const GITHUB_FILE = 'data.json';
-const API_BASE = 'https://api.github.com';
+const API = '/.netlify/functions/github';
 
 const TEAM = {
   Mark:    {initials:'MW', bg:'#E6F1FB', color:'#185FA5'},
@@ -272,26 +233,23 @@ let openItems = {};
 
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 
-async function githubGet(){
-  const r = await fetch(`${API_BASE}/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{
-    headers:{'Authorization':'token '+GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json'}
-  });
-  if(!r.ok) throw new Error('Failed to load data');
+async function apiGet(){
+  const r = await fetch(API, {method:'GET'});
+  if(!r.ok) throw new Error('Load failed');
   const j = await r.json();
   fileSha = j.sha;
-  return JSON.parse(atob(j.content.replace(/\n/g,'')));
+  return j.data;
 }
 
-async function githubPut(data){
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));
-  const r = await fetch(`${API_BASE}/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{
-    method:'PUT',
-    headers:{'Authorization':'token '+GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-    body: JSON.stringify({message:'Leadership update',content,sha:fileSha})
+async function apiPut(data){
+  const r = await fetch(API, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({data, sha: fileSha})
   });
-  if(!r.ok) throw new Error('Failed to save');
+  if(!r.ok) throw new Error('Save failed');
   const j = await r.json();
-  fileSha = j.content.sha;
+  fileSha = j.sha;
 }
 
 function ensureIds(arr){
@@ -301,35 +259,35 @@ function ensureIds(arr){
 
 async function loadData(){
   showStatus('Loading...');
-  try{
-    const data = await githubGet();
-    if(!data.agenda || data.agenda.length===0){
-      state.agenda = ensureIds(DEFAULT_AGENDA.map(i=>({...i,id:uid()})));
-      state.ongoing = ensureIds(DEFAULT_ONGOING.map(i=>({...i,id:uid()})));
+  try {
+    const data = await apiGet();
+    if(!data.agenda || data.agenda.length === 0){
+      state.agenda = DEFAULT_AGENDA.map(i=>({...i, id:uid()}));
+      state.ongoing = DEFAULT_ONGOING.map(i=>({...i, id:uid()}));
       state.lexacom = [];
-      await githubPut(state);
+      await apiPut(state);
     } else {
-      state.agenda = ensureIds(data.agenda||[]);
-      state.ongoing = ensureIds(data.ongoing||[]);
-      state.lexacom = data.lexacom||[];
+      state.agenda = ensureIds(data.agenda || []);
+      state.ongoing = ensureIds(data.ongoing || []);
+      state.lexacom = data.lexacom || [];
     }
     hideStatus();
     render();
-  } catch(e){
-    showStatus('Could not connect to GitHub. Check your connection.');
+  } catch(e) {
+    showStatus('Could not connect. Try refreshing, or check your internet connection.');
   }
 }
 
 function scheduleSave(){
   clearTimeout(saveTimeout);
   setSyncing(true);
-  saveTimeout = setTimeout(async ()=>{
-    try{
-      await githubPut(state);
+  saveTimeout = setTimeout(async () => {
+    try {
+      await apiPut(state);
       setSyncing(false);
       showToast('Saved');
-    } catch(e){
-      showToast('Save failed - try syncing');
+    } catch(e) {
+      showToast('Save failed - press Sync to retry');
       setSyncing(false);
     }
   }, 1500);
@@ -338,15 +296,15 @@ function scheduleSave(){
 async function syncNow(){
   showToast('Syncing...');
   setSyncing(true);
-  try{
-    const data = await githubGet();
-    state.agenda = ensureIds(data.agenda||[]);
-    state.ongoing = ensureIds(data.ongoing||[]);
-    state.lexacom = data.lexacom||[];
+  try {
+    const data = await apiGet();
+    state.agenda = ensureIds(data.agenda || []);
+    state.ongoing = ensureIds(data.ongoing || []);
+    state.lexacom = data.lexacom || [];
     render();
     showToast('Up to date');
-  } catch(e){
-    showToast('Sync failed');
+  } catch(e) {
+    showToast('Sync failed - check connection');
   }
   setSyncing(false);
 }
@@ -363,10 +321,10 @@ function hideStatus(){ document.getElementById('status-bar').classList.remove('v
 
 let toastTimer;
 function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),2000);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2000);
 }
 
 function statusClass(s){
@@ -379,69 +337,79 @@ function statusClass(s){
 function statusLabel(s){
   if(s==='allocation pending') return 'unassigned';
   if(s==='Working on it') return 'in progress';
-  return s||'unassigned';
+  return s || 'unassigned';
 }
 function avatarHtml(name){
-  const t=TEAM[name]; if(!t) return '';
+  const t = TEAM[name]; if(!t) return '';
   return `<div class="avatar" style="background:${t.bg};color:${t.color}">${t.initials}</div>`;
 }
-function cycleStatus(arr,id){
-  const item=arr.find(i=>i.id===id); if(!item) return;
-  const idx=STATUS_CYCLE.indexOf(item.status);
-  item.status=STATUS_CYCLE[(idx+1)%STATUS_CYCLE.length];
+
+function cycleStatus(which, id){
+  const arr = which==='agenda' ? state.agenda : state.ongoing;
+  const item = arr.find(i=>i.id===id); if(!item) return;
+  const idx = STATUS_CYCLE.indexOf(item.status);
+  item.status = STATUS_CYCLE[(idx+1) % STATUS_CYCLE.length];
   scheduleSave(); render();
 }
 function toggleOpen(id){
-  openItems[id]=!openItems[id]; render();
+  openItems[id] = !openItems[id]; render();
 }
-function addNote(arr,id,authorSel,textArea){
-  const text=textArea.value.trim(); if(!text) return;
-  const item=arr.find(i=>i.id===id); if(!item) return;
-  const author=authorSel.value||'Team';
-  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-  item.notes.unshift({text,author,date,id:uid()});
-  textArea.value='';
+function addNote(which, id){
+  const arr = which==='agenda' ? state.agenda : state.ongoing;
+  const text = document.getElementById('ta-'+id).value.trim(); if(!text) return;
+  const item = arr.find(i=>i.id===id); if(!item) return;
+  const author = document.getElementById('sel-'+id).value || 'Team';
+  const date = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  item.notes.unshift({text, author, date, id:uid()});
+  document.getElementById('ta-'+id).value = '';
   scheduleSave(); render();
-  openItems[id]=true; render();
+  openItems[id] = true; render();
 }
-function markDone(arr,id){
-  const item=arr.find(i=>i.id===id); if(!item) return;
-  item.status='Done'; scheduleSave(); render();
+function markDone(which, id){
+  const arr = which==='agenda' ? state.agenda : state.ongoing;
+  const item = arr.find(i=>i.id===id); if(!item) return;
+  item.status = 'Done'; scheduleSave(); render();
 }
-function removeItem(arr,id){
+function removeItem(which, id){
   if(!confirm('Remove this item?')) return;
-  const idx=arr.findIndex(i=>i.id===id); if(idx===-1) return;
+  const arr = which==='agenda' ? state.agenda : state.ongoing;
+  const idx = arr.findIndex(i=>i.id===id); if(idx===-1) return;
   arr.splice(idx,1); scheduleSave(); render();
 }
 function addItem(){
-  const title=document.getElementById('new-title').value.trim(); if(!title) return;
-  const owner=document.getElementById('new-owner').value;
-  const item={id:uid(),title,owners:owner?[owner]:[],status:'allocation pending',notes:[]};
+  const title = document.getElementById('new-title').value.trim(); if(!title) return;
+  const owner = document.getElementById('new-owner').value;
+  const item = {id:uid(), title, owners:owner?[owner]:[], status:'allocation pending', notes:[]};
   state.agenda.unshift(item);
-  document.getElementById('new-title').value='';
-  openItems[item.id]=true;
+  document.getElementById('new-title').value = '';
+  openItems[item.id] = true;
   scheduleSave(); render();
 }
 function saveLexacom(){
-  const text=document.getElementById('lexacom-input').value.trim(); if(!text) return;
-  const date=new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  state.lexacom.unshift({id:uid(),text,date});
-  document.getElementById('lexacom-input').value='';
+  const text = document.getElementById('lexacom-input').value.trim(); if(!text) return;
+  const date = new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  state.lexacom.unshift({id:uid(), text, date});
+  document.getElementById('lexacom-input').value = '';
   scheduleSave(); render();
 }
 
-function renderItems(container, arr){
+function escHtml(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderItems(container, arr, which){
   const active = arr.filter(i=>i.status!=='Done');
   if(!active.length){ container.innerHTML='<div class="empty">No items</div>'; return; }
-  container.innerHTML = active.map((item,idx)=>{
+  container.innerHTML = active.map((item,idx) => {
     const open = openItems[item.id];
     return `
-    <div class="item-card ${open?'is-open':''}" id="card-${item.id}">
+    <div class="item-card ${open?'is-open':''}">
       <div class="item-header" onclick="toggleOpen('${item.id}')">
         <span class="item-num">${idx+1}</span>
         <span class="item-title">${escHtml(item.title)}</span>
         <div class="owners-row">${(item.owners||[]).map(avatarHtml).join('')}</div>
-        <button class="status-badge ${statusClass(item.status)}" onclick="event.stopPropagation();cycleStatus(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}')">${statusLabel(item.status)}</button>
+        <button class="status-badge ${statusClass(item.status)}" onclick="event.stopPropagation();cycleStatus('${which}','${item.id}')">${statusLabel(item.status)}</button>
         <span class="chevron">&#9660;</span>
       </div>
       <div class="item-body">
@@ -453,7 +421,7 @@ function renderItems(container, arr){
         <div class="note-input-area">
           <select id="sel-${item.id}">${Object.keys(TEAM).map(n=>`<option>${n}</option>`).join('')}</select>
           <textarea id="ta-${item.id}" placeholder="Add a note..."></textarea>
-          <button onclick="addNote(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}',document.getElementById('sel-${item.id}'),document.getElementById('ta-${item.id}'))">Save note</button>
+          <button onclick="addNote('${which}','${item.id}')">Save note</button>
         </div>
         <div class="item-footer">
           <div class="owner-chips">
@@ -462,8 +430,8 @@ function renderItems(container, arr){
             ${!(item.owners||[]).length ? '<span style="font-size:11px;color:var(--gray-400)">None assigned</span>' : ''}
           </div>
           <div class="item-btns">
-            <button class="item-btn done-btn" onclick="event.stopPropagation();markDone(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}')">Done</button>
-            <button class="item-btn remove-btn" onclick="event.stopPropagation();removeItem(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}')">Remove</button>
+            <button class="item-btn done-btn" onclick="event.stopPropagation();markDone('${which}','${item.id}')">Done</button>
+            <button class="item-btn remove-btn" onclick="event.stopPropagation();removeItem('${which}','${item.id}')">Remove</button>
           </div>
         </div>
       </div>
@@ -471,18 +439,13 @@ function renderItems(container, arr){
   }).join('');
 }
 
-function escHtml(s){
-  if(!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
 function render(){
   const agendaList = document.getElementById('agenda-list');
   const ongoingList = document.getElementById('ongoing-list');
   const lexacomHistory = document.getElementById('lexacom-history');
 
-  if(agendaList) renderItems(agendaList, state.agenda);
-  if(ongoingList) renderItems(ongoingList, state.ongoing);
+  if(agendaList) renderItems(agendaList, state.agenda, 'agenda');
+  if(ongoingList) renderItems(ongoingList, state.ongoing, 'ongoing');
 
   const done = state.agenda.filter(i=>i.status==='Done').length;
   const total = state.agenda.length;
@@ -524,10 +487,7 @@ function setMeetingDate(){
 
 setMeetingDate();
 loadData();
-
-setInterval(()=>{
-  if(!saveTimeout) syncNow();
-}, 60000);
+setInterval(()=>{ if(!saveTimeout) syncNow(); }, 60000);
 </script>
 </body>
 </html>
