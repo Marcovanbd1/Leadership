@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadership &mdash; Weymouth &amp; Portland PCN</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --teal:#1D9E75;--teal-light:#E1F5EE;--teal-dark:#0F6E56;
+    --gray-50:#f8f8f6;--gray-100:#f0efea;--gray-200:#e0dfd8;--gray-400:#888780;--gray-600:#5F5E5A;--gray-900:#2C2C2A;
+    --blue-light:#E6F1FB;--blue:#185FA5;
+    --amber-light:#FAEEDA;--amber:#854F0B;
+    --red-light:#FCEBEB;--red:#A32D2D;
+    --green-light:#EAF3DE;--green:#3B6D11;
+    --purple-light:#EEEDFE;--purple:#534AB7;
+    --coral-light:#FAECE7;--coral:#993C1D;
+    --pink-light:#FBEAF0;--pink:#993556;
+    --radius:8px;--radius-lg:12px;
+  }
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--gray-50);color:var(--gray-900);min-height:100vh}
+  
+  /* LAYOUT */
+  .app{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+  
+  /* HEADER */
+  .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem}
+  .header-brand{display:flex;align-items:center;gap:12px}
+  .brand-dot{width:10px;height:10px;border-radius:50%;background:var(--teal);margin-top:5px;flex-shrink:0}
+  .header h1{font-size:22px;font-weight:600;color:var(--gray-900);letter-spacing:-0.3px}
+  .header-sub{font-size:13px;color:var(--gray-400);margin-top:2px}
+  .header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .meeting-pill{font-size:12px;background:white;border:1px solid var(--gray-200);border-radius:100px;padding:5px 12px;color:var(--gray-600)}
+  .sync-btn{font-size:12px;padding:5px 12px;border-radius:100px;border:1px solid var(--gray-200);background:white;color:var(--gray-600);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.15s}
+  .sync-btn:hover{border-color:var(--teal);color:var(--teal)}
+  .sync-btn.syncing{color:var(--teal);border-color:var(--teal)}
+  .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:0}
+  .sync-dot.active{opacity:1;animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+  /* TABS */
+  .tabs{display:flex;gap:2px;margin-bottom:1.5rem;background:var(--gray-100);padding:3px;border-radius:var(--radius);width:fit-content}
+  .tab{font-size:13px;padding:6px 16px;border-radius:6px;border:none;cursor:pointer;background:transparent;color:var(--gray-600);font-weight:400;transition:all 0.15s}
+  .tab.active{background:white;color:var(--gray-900);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+
+  /* ADD BAR */
+  .add-bar{display:flex;gap:8px;margin-bottom:1.25rem}
+  .add-bar input{flex:1;font-size:14px;padding:9px 13px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);outline:none;transition:border-color 0.15s}
+  .add-bar input:focus{border-color:var(--teal)}
+  .add-bar select{font-size:13px;padding:9px 10px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);outline:none;cursor:pointer}
+  .add-bar button{font-size:13px;padding:9px 18px;border-radius:var(--radius);border:1px solid var(--teal);background:var(--teal);color:white;cursor:pointer;font-weight:500;transition:all 0.15s;white-space:nowrap}
+  .add-bar button:hover{background:var(--teal-dark)}
+
+  /* PROGRESS */
+  .progress-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
+  .progress-bar{flex:1;height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.4s ease}
+  .progress-label{font-size:12px;color:var(--gray-400);white-space:nowrap}
+
+  /* ITEM CARDS */
+  .item-card{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);margin-bottom:6px;overflow:hidden;transition:box-shadow 0.15s,border-color 0.15s}
+  .item-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+  .item-card.is-open{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
+  .item-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none}
+  .item-num{font-size:11px;color:var(--gray-400);min-width:20px;font-weight:500;text-align:right}
+  .item-title{flex:1;font-size:14px;color:var(--gray-900);line-height:1.4}
+  .owners-row{display:flex;gap:3px}
+  .avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;border:2px solid white}
+  .chevron{font-size:10px;color:var(--gray-400);transition:transform 0.2s;flex-shrink:0}
+  .item-card.is-open .chevron{transform:rotate(180deg)}
+
+  /* STATUS BADGE */
+  .status-badge{font-size:11px;padding:3px 9px;border-radius:100px;font-weight:500;cursor:pointer;border:none;flex-shrink:0;white-space:nowrap;transition:opacity 0.15s}
+  .status-badge:hover{opacity:0.8}
+  .s-working{background:var(--teal-light);color:var(--teal-dark)}
+  .s-pending{background:var(--gray-100);color:var(--gray-600)}
+  .s-reference{background:var(--blue-light);color:var(--blue)}
+  .s-done{background:var(--green-light);color:var(--green)}
+  .s-hold{background:var(--amber-light);color:var(--amber)}
+
+  /* ITEM BODY */
+  .item-body{display:none;border-top:1px solid var(--gray-100);padding:14px 14px 14px 44px}
+  .item-card.is-open .item-body{display:block}
+
+  /* NOTES */
+  .notes-label{font-size:11px;font-weight:500;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+  .note-entry{padding:9px 11px;border-left:2px solid var(--gray-200);margin-bottom:7px;background:var(--gray-50);border-radius:0 var(--radius) var(--radius) 0}
+  .note-meta{font-size:11px;color:var(--gray-400);margin-bottom:3px}
+  .note-meta strong{color:var(--gray-600)}
+  .note-text{font-size:13px;color:var(--gray-900);line-height:1.5;white-space:pre-wrap}
+  .no-notes{font-size:13px;color:var(--gray-400);margin-bottom:10px;font-style:italic}
+
+  /* NOTE INPUT */
+  .note-input-area{display:flex;gap:7px;margin-top:10px}
+  .note-input-area select{font-size:12px;padding:7px 8px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);outline:none;width:90px;flex-shrink:0}
+  .note-input-area textarea{flex:1;font-size:13px;padding:7px 10px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-900);resize:none;height:58px;font-family:inherit;outline:none;transition:border-color 0.15s;line-height:1.4}
+  .note-input-area textarea:focus{border-color:var(--teal)}
+  .note-input-area button{font-size:12px;padding:0 13px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-600);cursor:pointer;align-self:flex-end;height:34px;transition:all 0.15s;white-space:nowrap}
+  .note-input-area button:hover{border-color:var(--teal);color:var(--teal)}
+
+  /* ITEM FOOTER */
+  .item-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--gray-100)}
+  .owner-chips{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .owner-chip{display:flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;background:var(--gray-100);border-radius:100px;color:var(--gray-600)}
+  .item-btns{display:flex;gap:5px}
+  .item-btn{font-size:11px;padding:4px 10px;border-radius:var(--radius);border:1px solid var(--gray-200);background:white;color:var(--gray-600);cursor:pointer;transition:all 0.15s}
+  .item-btn:hover{background:var(--gray-100)}
+  .item-btn.done-btn:hover{background:var(--green-light);color:var(--green);border-color:var(--green-light)}
+  .item-btn.remove-btn:hover{background:var(--red-light);color:var(--red);border-color:var(--red-light)}
+
+  /* LEXACOM */
+  .lexacom-section{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem}
+  .lexacom-section h3{font-size:14px;font-weight:500;color:var(--gray-900);margin-bottom:4px}
+  .lexacom-section p{font-size:13px;color:var(--gray-400);margin-bottom:12px}
+  .lexacom-section textarea{width:100%;font-size:13px;padding:9px 11px;border-radius:var(--radius);border:1px solid var(--gray-200);background:var(--gray-50);color:var(--gray-900);resize:none;height:100px;font-family:inherit;outline:none;transition:border-color 0.15s}
+  .lexacom-section textarea:focus{border-color:var(--teal)}
+  .lexacom-section button{margin-top:8px;font-size:13px;padding:8px 18px;border-radius:var(--radius);border:1px solid var(--teal);background:var(--teal);color:white;cursor:pointer;font-weight:500}
+  .lexacom-entry{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-top:12px}
+  .lexacom-entry-meta{font-size:11px;color:var(--gray-400);margin-bottom:6px;font-weight:500}
+  .lexacom-entry-text{font-size:13px;color:var(--gray-900);line-height:1.6;white-space:pre-wrap}
+
+  /* LOADING / STATUS */
+  .status-bar{font-size:12px;color:var(--gray-400);text-align:center;padding:2rem;display:none}
+  .status-bar.visible{display:block}
+  .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gray-900);color:white;font-size:13px;padding:10px 16px;border-radius:var(--radius);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:100}
+  .toast.show{opacity:1}
+
+  /* EMPTY */
+  .empty{text-align:center;padding:3rem 1rem;color:var(--gray-400);font-size:14px}
+
+  /* ONGOING GROUP */
+  .section-label{font-size:11px;font-weight:500;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;margin-top:1rem}
+  .section-label:first-child{margin-top:0}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="header-brand">
+      <div class="brand-dot"></div>
+      <div>
+        <h1>Leadership</h1>
+        <div class="header-sub">Weymouth &amp; Portland PCN</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="meeting-pill" id="meeting-date"></div>
+      <button class="sync-btn" onclick="syncNow()" id="sync-btn">
+        <div class="sync-dot" id="sync-dot"></div>
+        Sync
+      </button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('agenda',this)">Agenda</button>
+    <button class="tab" onclick="switchTab('ongoing',this)">Ongoing</button>
+    <button class="tab" onclick="switchTab('lexacom',this)">Lexacom</button>
+  </div>
+
+  <!-- AGENDA TAB -->
+  <div id="tab-agenda">
+    <div class="add-bar">
+      <input type="text" id="new-title" placeholder="Add agenda item..." onkeydown="if(event.key==='Enter')addItem()"/>
+      <select id="new-owner">
+        <option value="">Owner</option>
+        <option>Mark</option><option>Laura</option><option>Sandra</option>
+        <option>Sharlina</option><option>Katie</option><option>Rachel</option>
+      </select>
+      <button onclick="addItem()">Add item</button>
+    </div>
+    <div class="progress-row">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-label" id="progress-label"></div>
+    </div>
+    <div id="agenda-list"></div>
+  </div>
+
+  <!-- ONGOING TAB -->
+  <div id="tab-ongoing" style="display:none">
+    <div id="ongoing-list"></div>
+  </div>
+
+  <!-- LEXACOM TAB -->
+  <div id="tab-lexacom" style="display:none">
+    <div class="lexacom-section">
+      <h3>Paste Lexacom summary</h3>
+      <p>After the meeting, paste the Ambient Scribe output here. It will be saved against today's date.</p>
+      <textarea id="lexacom-input" placeholder="Paste summary here..."></textarea>
+      <button onclick="saveLexacom()">Save summary</button>
+    </div>
+    <div id="lexacom-history"></div>
+  </div>
+
+  <div class="status-bar" id="status-bar">Loading...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const GITHUB_TOKEN = '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';
+const GITHUB_REPO = 'Marcovanbd1/leadership-data';
+const GITHUB_FILE = 'data.json';
+const API_BASE = 'https://api.github.com';
+
+const TEAM = {
+  Mark:    {initials:'MW', bg:'#E6F1FB', color:'#185FA5'},
+  Laura:   {initials:'LG', bg:'#E1F5EE', color:'#0F6E56'},
+  Sandra:  {initials:'SS', bg:'#FAEEDA', color:'#854F0B'},
+  Sharlina:{initials:'SH', bg:'#FBEAF0', color:'#993556'},
+  Katie:   {initials:'KM', bg:'#EEEDFE', color:'#534AB7'},
+  Rachel:  {initials:'RS', bg:'#FAECE7', color:'#993C1D'}
+};
+
+const STATUS_CYCLE = ['allocation pending','Working on it','for reference','on hold','Done'];
+
+const DEFAULT_AGENDA = [
+  {title:'FAME - delay next cohort',owners:['Katie'],status:'allocation pending',notes:[]},
+  {title:'BP at home clinicians extended to 31st March 2026',owners:[],status:'allocation pending',notes:[]},
+  {title:'Request for SDAS consumables',owners:[],status:'allocation pending',notes:[]},
+  {title:'Access wellbeing Q',owners:['Laura'],status:'allocation pending',notes:[]},
+  {title:'AfC Mileage rate change',owners:['Sandra'],status:'allocation pending',notes:[]},
+  {title:'Health Innovation Wessex - AVT',owners:['Sandra','Mark'],status:'Working on it',notes:[]},
+  {title:'SDE - LMC vs GPC data position',owners:['Sharlina'],status:'Working on it',notes:[]},
+  {title:'Functional neurological disorder - PLT / physio support',owners:['Laura'],status:'Working on it',notes:[]},
+  {title:'Agenda for change and DDRB',owners:['Laura','Sandra'],status:'Working on it',notes:[]},
+  {title:'Primary care safety strategy',owners:['Laura','Rachel'],status:'Working on it',notes:[]},
+  {title:'RSV in care homes',owners:['Laura','Katie'],status:'Working on it',notes:[]},
+  {title:'Smart Triage',owners:['Mark'],status:'Working on it',notes:[]},
+  {title:'Ambient Voice Tech (AVT)',owners:['Mark'],status:'Working on it',notes:[]},
+  {title:'MUCS and SDAs JDs',owners:['Laura','Katie'],status:'Working on it',notes:[]},
+  {title:'SystmOne access for DHC staff',owners:['Katie','Sandra'],status:'Working on it',notes:[]},
+  {title:'EOI for ADHD Clinician',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'Staff survey',owners:['Mark'],status:'Working on it',notes:[]},
+  {title:'Learning Lunch feedback',owners:['Laura'],status:'Working on it',notes:[]},
+  {title:'Care coordinator laptops',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'License to attend paperwork',owners:['Laura'],status:'Working on it',notes:[]},
+  {title:'MOUs - Federation chair and PCN CD JDs',owners:['Sandra','Katie'],status:'Working on it',notes:[]},
+  {title:'Clinical waste - bin, moving between sites',owners:['Rachel'],status:'Working on it',notes:[]},
+  {title:'Minuting governance meetings and Monday replacement',owners:['Mark'],status:'Working on it',notes:[]},
+  {title:'Medicines Management Policy and Gases Storage Audit',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'Staff immunisation policy',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'Induction pack for new starters',owners:['Rachel','Katie'],status:'Working on it',notes:[]},
+  {title:'SLA / MOUs for EA (Fred yoga, Tai Chi)',owners:['Sandra'],status:'Working on it',notes:[]},
+  {title:'WECS TOIL sub policy',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'Trauma informed training',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'Safeguarding self assessment audit (for Practices)',owners:['Katie'],status:'Working on it',notes:[]}
+];
+
+const DEFAULT_ONGOING = [
+  {title:'LFPSE policy',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'Bank account',owners:['Katie','Sandra'],status:'Working on it',notes:[]},
+  {title:'CQC and compliance package of practice index',owners:['Rachel'],status:'Working on it',notes:[]},
+  {title:'Staff inductions and handbook',owners:['Rachel','Katie'],status:'allocation pending',notes:[]},
+  {title:'Leadership development plan',owners:[],status:'allocation pending',notes:[]},
+  {title:'Training policy / learning agreements',owners:['Katie','Rachel'],status:'Working on it',notes:[]},
+  {title:'Complaints process',owners:['Katie','Rachel'],status:'Working on it',notes:[]},
+  {title:'Clinical staff - move to 3CX',owners:['Katie'],status:'Working on it',notes:[]},
+  {title:'NHS Pension Scheme - part-time staff regulations',owners:['Katie','Sandra'],status:'Working on it',notes:[]},
+  {title:'Leg clubs',owners:['Laura'],status:'Working on it',notes:[]},
+  {title:'Pay Progression Policy and FAQs',owners:['Sandra','Katie'],status:'Working on it',notes:[]},
+  {title:'UPC tool',owners:['Laura','Katie'],status:'Working on it',notes:[]},
+  {title:'XR Clinical governance update newsletter',owners:['Laura','Rachel','Katie'],status:'Working on it',notes:[]},
+  {title:'Job descriptions',owners:['Katie'],status:'Working on it',notes:[]}
+];
+
+let state = {agenda:[], ongoing:[], lexacom:[]};
+let fileSha = null;
+let saveTimeout = null;
+let openItems = {};
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+async function githubGet(){
+  const r = await fetch(`${API_BASE}/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{
+    headers:{'Authorization':'token '+GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json'}
+  });
+  if(!r.ok) throw new Error('Failed to load data');
+  const j = await r.json();
+  fileSha = j.sha;
+  return JSON.parse(atob(j.content.replace(/\n/g,'')));
+}
+
+async function githubPut(data){
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));
+  const r = await fetch(`${API_BASE}/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{
+    method:'PUT',
+    headers:{'Authorization':'token '+GITHUB_TOKEN,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body: JSON.stringify({message:'Leadership update',content,sha:fileSha})
+  });
+  if(!r.ok) throw new Error('Failed to save');
+  const j = await r.json();
+  fileSha = j.content.sha;
+}
+
+function ensureIds(arr){
+  arr.forEach(i=>{ if(!i.id) i.id=uid(); if(!i.notes) i.notes=[]; });
+  return arr;
+}
+
+async function loadData(){
+  showStatus('Loading...');
+  try{
+    const data = await githubGet();
+    if(!data.agenda || data.agenda.length===0){
+      state.agenda = ensureIds(DEFAULT_AGENDA.map(i=>({...i,id:uid()})));
+      state.ongoing = ensureIds(DEFAULT_ONGOING.map(i=>({...i,id:uid()})));
+      state.lexacom = [];
+      await githubPut(state);
+    } else {
+      state.agenda = ensureIds(data.agenda||[]);
+      state.ongoing = ensureIds(data.ongoing||[]);
+      state.lexacom = data.lexacom||[];
+    }
+    hideStatus();
+    render();
+  } catch(e){
+    showStatus('Could not connect to GitHub. Check your connection.');
+  }
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimeout);
+  setSyncing(true);
+  saveTimeout = setTimeout(async ()=>{
+    try{
+      await githubPut(state);
+      setSyncing(false);
+      showToast('Saved');
+    } catch(e){
+      showToast('Save failed - try syncing');
+      setSyncing(false);
+    }
+  }, 1500);
+}
+
+async function syncNow(){
+  showToast('Syncing...');
+  setSyncing(true);
+  try{
+    const data = await githubGet();
+    state.agenda = ensureIds(data.agenda||[]);
+    state.ongoing = ensureIds(data.ongoing||[]);
+    state.lexacom = data.lexacom||[];
+    render();
+    showToast('Up to date');
+  } catch(e){
+    showToast('Sync failed');
+  }
+  setSyncing(false);
+}
+
+function setSyncing(v){
+  const dot = document.getElementById('sync-dot');
+  const btn = document.getElementById('sync-btn');
+  if(v){ dot.classList.add('active'); btn.classList.add('syncing'); }
+  else { dot.classList.remove('active'); btn.classList.remove('syncing'); }
+}
+
+function showStatus(msg){ const s=document.getElementById('status-bar'); s.textContent=msg; s.classList.add('visible'); }
+function hideStatus(){ document.getElementById('status-bar').classList.remove('visible'); }
+
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function statusClass(s){
+  if(s==='Working on it') return 's-working';
+  if(s==='Done') return 's-done';
+  if(s==='for reference') return 's-reference';
+  if(s==='on hold') return 's-hold';
+  return 's-pending';
+}
+function statusLabel(s){
+  if(s==='allocation pending') return 'unassigned';
+  if(s==='Working on it') return 'in progress';
+  return s||'unassigned';
+}
+function avatarHtml(name){
+  const t=TEAM[name]; if(!t) return '';
+  return `<div class="avatar" style="background:${t.bg};color:${t.color}">${t.initials}</div>`;
+}
+function cycleStatus(arr,id){
+  const item=arr.find(i=>i.id===id); if(!item) return;
+  const idx=STATUS_CYCLE.indexOf(item.status);
+  item.status=STATUS_CYCLE[(idx+1)%STATUS_CYCLE.length];
+  scheduleSave(); render();
+}
+function toggleOpen(id){
+  openItems[id]=!openItems[id]; render();
+}
+function addNote(arr,id,authorSel,textArea){
+  const text=textArea.value.trim(); if(!text) return;
+  const item=arr.find(i=>i.id===id); if(!item) return;
+  const author=authorSel.value||'Team';
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  item.notes.unshift({text,author,date,id:uid()});
+  textArea.value='';
+  scheduleSave(); render();
+  openItems[id]=true; render();
+}
+function markDone(arr,id){
+  const item=arr.find(i=>i.id===id); if(!item) return;
+  item.status='Done'; scheduleSave(); render();
+}
+function removeItem(arr,id){
+  if(!confirm('Remove this item?')) return;
+  const idx=arr.findIndex(i=>i.id===id); if(idx===-1) return;
+  arr.splice(idx,1); scheduleSave(); render();
+}
+function addItem(){
+  const title=document.getElementById('new-title').value.trim(); if(!title) return;
+  const owner=document.getElementById('new-owner').value;
+  const item={id:uid(),title,owners:owner?[owner]:[],status:'allocation pending',notes:[]};
+  state.agenda.unshift(item);
+  document.getElementById('new-title').value='';
+  openItems[item.id]=true;
+  scheduleSave(); render();
+}
+function saveLexacom(){
+  const text=document.getElementById('lexacom-input').value.trim(); if(!text) return;
+  const date=new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  state.lexacom.unshift({id:uid(),text,date});
+  document.getElementById('lexacom-input').value='';
+  scheduleSave(); render();
+}
+
+function renderItems(container, arr){
+  const active = arr.filter(i=>i.status!=='Done');
+  if(!active.length){ container.innerHTML='<div class="empty">No items</div>'; return; }
+  container.innerHTML = active.map((item,idx)=>{
+    const open = openItems[item.id];
+    return `
+    <div class="item-card ${open?'is-open':''}" id="card-${item.id}">
+      <div class="item-header" onclick="toggleOpen('${item.id}')">
+        <span class="item-num">${idx+1}</span>
+        <span class="item-title">${escHtml(item.title)}</span>
+        <div class="owners-row">${(item.owners||[]).map(avatarHtml).join('')}</div>
+        <button class="status-badge ${statusClass(item.status)}" onclick="event.stopPropagation();cycleStatus(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}')">${statusLabel(item.status)}</button>
+        <span class="chevron">&#9660;</span>
+      </div>
+      <div class="item-body">
+        <div class="notes-label">Notes</div>
+        ${item.notes.length
+          ? item.notes.map(n=>`<div class="note-entry"><div class="note-meta"><strong>${escHtml(n.author)}</strong> &mdash; ${escHtml(n.date)}</div><div class="note-text">${escHtml(n.text)}</div></div>`).join('')
+          : '<div class="no-notes">No notes yet</div>'
+        }
+        <div class="note-input-area">
+          <select id="sel-${item.id}">${Object.keys(TEAM).map(n=>`<option>${n}</option>`).join('')}</select>
+          <textarea id="ta-${item.id}" placeholder="Add a note..."></textarea>
+          <button onclick="addNote(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}',document.getElementById('sel-${item.id}'),document.getElementById('ta-${item.id}'))">Save note</button>
+        </div>
+        <div class="item-footer">
+          <div class="owner-chips">
+            <span style="font-size:11px;color:var(--gray-400);margin-right:3px">Owners:</span>
+            ${(item.owners||[]).map(o=>`<span class="owner-chip">${avatarHtml(o)} ${o}</span>`).join('')}
+            ${!(item.owners||[]).length ? '<span style="font-size:11px;color:var(--gray-400)">None assigned</span>' : ''}
+          </div>
+          <div class="item-btns">
+            <button class="item-btn done-btn" onclick="event.stopPropagation();markDone(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}')">Done</button>
+            <button class="item-btn remove-btn" onclick="event.stopPropagation();removeItem(${arr===state.agenda?'state.agenda':'state.ongoing'},'${item.id}')">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render(){
+  const agendaList = document.getElementById('agenda-list');
+  const ongoingList = document.getElementById('ongoing-list');
+  const lexacomHistory = document.getElementById('lexacom-history');
+
+  if(agendaList) renderItems(agendaList, state.agenda);
+  if(ongoingList) renderItems(ongoingList, state.ongoing);
+
+  const done = state.agenda.filter(i=>i.status==='Done').length;
+  const total = state.agenda.length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-label');
+  if(fill) fill.style.width = pct+'%';
+  if(label) label.textContent = `${done} of ${total} done`;
+
+  if(lexacomHistory){
+    lexacomHistory.innerHTML = state.lexacom.length
+      ? state.lexacom.map(l=>`
+        <div class="lexacom-entry">
+          <div class="lexacom-entry-meta">Ambient Scribe summary &mdash; ${escHtml(l.date)}</div>
+          <div class="lexacom-entry-text">${escHtml(l.text)}</div>
+        </div>`).join('')
+      : '';
+  }
+}
+
+function switchTab(tab, btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  ['agenda','ongoing','lexacom'].forEach(t=>{
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===tab ? 'block' : 'none';
+  });
+}
+
+function setMeetingDate(){
+  const d = new Date();
+  const day = d.getDay();
+  const diff = day<=3 ? 3-day : 10-day;
+  const next = new Date(d);
+  next.setDate(d.getDate()+diff);
+  document.getElementById('meeting-date').textContent =
+    next.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+}
+
+setMeetingDate();
+loadData();
+
+setInterval(()=>{
+  if(!saveTimeout) syncNow();
+}, 60000);
+</script>
+</body>
+</html>
